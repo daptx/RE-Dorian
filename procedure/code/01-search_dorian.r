@@ -35,11 +35,11 @@ library(rehydratoR)
 # this should launch a web browser and ask you to log in to twitter
 # for authentication of access_token and access_secret
 twitter_token = create_token(
-  app = "",                     #enter your app name in quotes
-  consumer_key = "",  		      #enter your consumer key in quotes
-  consumer_secret = "",         #enter your consumer secret in quotes
-  access_token = NULL,
-  access_secret = NULL
+  app = "ND Spatial Clustering",                     #enter your app name in quotes
+  consumer_key = "m4TwybVNDwtGC0kydCik3cW44",  		      #enter your consumer key in quotes
+  consumer_secret = "QPQplWWUddibK7qWwd5C6ap2PHTrHpw20VKiVEp1caMw34H9lW",         #enter your consumer secret in quotes
+  access_token = "1337140853652017152-kyr1fHph9e4UEhPIRcv6V7quRGaj63",
+  access_secret = "YS2gHHxp1JHiWuSeGEIuoHcX7AnX4HmVFx0EONzS1GV2C"
 )
 
 # get tweets for hurricane Dorian, searched on September 11, 2019

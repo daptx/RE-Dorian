@@ -115,7 +115,7 @@ counties <- get_estimates("county",
                           product="population",
                           output="wide",
                           geometry=TRUE, keep_geo_vars=TRUE, 
-                          key="yourkey")
+                          key="9bdde1e9d9ab8fa69fb2d8a7fa333459b341138d")
 
 # select only the states you want, with FIPS state codes
 # look up fips codes here:
@@ -156,7 +156,7 @@ ggplot() +
 con <- dbConnect(RPostgres::Postgres(), 
                  dbname='dsm', 
                  host='artemis', 
-                 user='user', 
+                 user='drew', 
                  password='password') 
 
 #list the database tables, to check if the database is working
@@ -170,6 +170,9 @@ doriansql <- select(dorian,c("user_id","status_id","text","lat","lng"),
 dbWriteTable(con,'dorian',doriansql, overwrite=TRUE)
 
 # try also writing the november tweet data to the database! Add code below:
+novembersql <- select(november,c("user_id","status_id","text","lat","lng"),
+                    starts_with("place"))
+dbWriteTable(con,'november',novembersql, overwrite=TRUE)
 
 # write counties table with lower-case column names to the database
 dbWriteTable(con,'counties',lownames(counties), overwrite=TRUE)
