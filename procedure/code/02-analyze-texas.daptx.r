@@ -101,7 +101,7 @@ texasWordPairs %>%
   geom_edge_link(aes(edge_alpha = n, edge_width = n)) +
   geom_node_point(color = "darkslategray4", size = 3) +
   geom_node_text(aes(label = name), vjust = 1.8, size = 3) +
-  labs(title = "Word Network of Tweets in Texas about Vaccinations",
+  labs(title = "Word Network of Tweets in the South about Vaccinations",
        x = "", y = "") +
   theme_void()
 
