@@ -19,24 +19,23 @@ library(ggplot2)
 # and calculated normalized tweet rates in PostGIS
 
 # load dorian and november data if not already loaded
-dorian = readRDS(here("data","derived","private","dorian.RDS"))
-november = readRDS(here("data","derived","private","november.RDS"))
+texas = readRDS(here("data","derived","private","texas.RDS"))
 
-dorian_sf = dorian %>%
+texas_sf = texas %>%
   st_as_sf(coords = c("lng","lat"), crs=4326) %>%  # make point geometries
   st_transform(4269) %>%  # transform to NAD 1983
   st_join(select(counties,GEOID))  # spatially join counties to each tweet
 
-dorian_by_county = dorian_sf %>%
+texas_by_county = texas_sf %>%
   st_drop_geometry() %>%   # drop geometry / make simple table
   group_by(GEOID) %>%      # group by county using GEOID
-  summarise(dorian = n())  # count # of tweets
+  summarise(texas = n())  # count # of tweets
 
 counties = counties %>%
-  left_join(dorian_by_county, by="GEOID") %>% # join count of tweets to counties
-  mutate(dorian = replace_na(dorian,0))       # replace nulls with 0's
+  left_join(texas_by_county, by="GEOID") %>% # join count of tweets to counties
+  mutate(texas = replace_na(texas,0))       # replace nulls with 0's
 
-rm(dorian_by_county)
+rm(texas_by_county)
 
 # Repeat the workflow above for tweets in November
 
@@ -53,8 +52,8 @@ counties = counties %>%
   mutate(nov = replace_na(nov,0))
 
 counties = counties %>%
-  mutate(dorrate = dorian / POP * 10000) %>%  # dorrate is tweets per 10,000
-  mutate(ntdi = (dorian - nov) / (dorian + nov)) %>%  # normalized tweet diff
+  mutate(dorrate = texas / POP * 10000) %>%  # dorrate is tweets per 10,000
+  mutate(ntdi = (texas - nov) / (texas + nov)) %>%  # normalized tweet diff
   mutate(ntdi = replace_na(ntdi,0))   # replace NULLs with 0's
 
 rm(nov_by_county)
@@ -87,7 +86,7 @@ dwm = nb2listw(thresdist, zero.policy = T)
 
 ######## Local G* Hotspot Analysis ######## 
 #Get Ord G* statistic for hot and cold spots
-counties$locG = as.vector(localG(counties$dorrate, listw = dwm, 
+counties$locG = as.vector(localG(counties$texas, listw = dwm, 
                                  zero.policy = TRUE))
 
 # optional step to check summary statistics of the local G score
@@ -124,7 +123,7 @@ ggplot() +
     aesthetics = "fill"
   ) +
   guides(fill=guide_legend(title="Hot Spots"))+
-  labs(title = "Clusters of Hurricane Dorian Twitter Activity")+
+  labs(title = "Clusters of COVID-19 Vaccination Twitter Activity in the South")+
   theme(plot.title=element_text(hjust=0.5),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())

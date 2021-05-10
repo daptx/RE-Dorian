@@ -121,10 +121,14 @@ counties <- get_estimates("county",
 # look up fips codes here:
 # https://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code 
 counties = filter(counties,
-                  STATEFP %in% c('48','22','05','40','35','04') )
+                  STATEFP %in% c('01','04','05','06','08','09','10','11','12','13','15','16','17','18','19','20',
+                                 '21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40',
+                                 '41','42','44','45','46','47','48','49','50','51','53','54','55','56'))
 
+counties = filter(counties,
+                  STATEFP %in% c('48','05','22','28','01','13','12','37','45','47','51','21'))
 # save counties to Derived/Public folder
-saveRDS(counties, here("data","derived","public","counties_texas.RDS"))
+saveRDS(counties, here("data","derived","public","counties_south.RDS"))
 
 # optionally, load counties from derived/public/counties.RDS
 counties = readRDS(here("data","derived","public","counties.RDS"))
@@ -140,7 +144,7 @@ ggplot() +
   guides(fill=guide_legend(title="Population Density"))+
   geom_point(data = texas, aes(x=lng,y=lat),
              colour = 'purple', alpha = .2) +
-  labs(title = "Vaccination Tweets During The COVID-19 Pandemic")+
+  labs(title = "Vaccination Tweets in the South During The COVID-19 Pandemic")+
   theme(plot.title=element_text(hjust=0.5),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())

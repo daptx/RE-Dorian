@@ -42,9 +42,9 @@ twitter_token = create_token(
   access_secret = "YS2gHHxp1JHiWuSeGEIuoHcX7AnX4HmVFx0EONzS1GV2C"
 )
 
-# get tweets for vaccines in texas, searched on May 5, 2021
+# get tweets for vaccines in texas, searched on May 10, 2021
 # this code will no longer work! It is here for reference.
-texas = search_tweets("vaccine AND appointment OR vaccination",
+texas = search_tweets("vaccine OR appointment OR vaccination",
                        n=200000, include_rts=FALSE,
                        token=twitter_token, 
                        geocode="29.76,-95.37,1000mi",
@@ -80,9 +80,9 @@ novemberids =
                         numerals = 'no.loss'))
 
 # rehydrate dorian tweets #DOESNT WORK FOR NOW
-texas_raw = rehydratoR(twitter_token$app$key, twitter_token$app$secret, 
-                twitter_token$credentials$oauth_token, 
-                twitter_token$credentials$oauth_secret, texasids, 
+texas_raw = rehydratoR("m4TwybVNDwtGC0kydCik3cW44", "QPQplWWUddibK7qWwd5C6ap2PHTrHpw20VKiVEp1caMw34H9lW", 
+                       "1337140853652017152-kyr1fHph9e4UEhPIRcv6V7quRGaj63", 
+                       "YS2gHHxp1JHiWuSeGEIuoHcX7AnX4HmVFx0EONzS1GV2C", texasids, 
                 base_path = NULL, group_start = 1)
 
 # alternatively, geog 323 students may load original dorian tweets
@@ -114,7 +114,7 @@ november = readRDS(here("data","derived","private","november.RDS"))
 # NA results included based on profile locations, not geotagging / geocoding.
 # If you have these, it indicates that you exhausted the more precise tweets 
 # in your search parameters and are including locations based on user profiles
-count(dorian_raw, place_type)
+count(texas_raw, place_type)
 
 # convert GPS coordinates into lat and lng columns
 # do not use geo_coords! Lat/Lng will be inverted
