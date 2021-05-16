@@ -39,22 +39,22 @@ rm(texas_by_county)
 
 # Repeat the workflow above for tweets in November
 
-nov_by_county = november %>% 
-  st_as_sf(coords = c("lng","lat"), crs=4326) %>%
-  st_transform(4269) %>%
-  st_join(select(counties,GEOID)) %>%
-  st_drop_geometry() %>%
-  group_by(GEOID) %>% 
-  summarise(nov = n())
+#nov_by_county = november %>% 
+  #st_as_sf(coords = c("lng","lat"), crs=4326) %>%
+  #st_transform(4269) %>%
+  #st_join(select(counties,GEOID)) %>%
+  #st_drop_geometry() %>%
+  #group_by(GEOID) %>% 
+  #summarise(nov = n())
 
-counties = counties %>%
-  left_join(nov_by_county, by="GEOID") %>%
-  mutate(nov = replace_na(nov,0))
+#counties = counties %>%
+  #left_join(nov_by_county, by="GEOID") %>%
+  #mutate(nov = replace_na(nov,0))
 
-counties = counties %>%
-  mutate(dorrate = texas / POP * 10000) %>%  # dorrate is tweets per 10,000
-  mutate(ntdi = (texas - nov) / (texas + nov)) %>%  # normalized tweet diff
-  mutate(ntdi = replace_na(ntdi,0))   # replace NULLs with 0's
+#counties = counties %>%
+ #mutate(dorrate = texas / POP * 10000) %>%  # dorrate is tweets per 10,000
+  #mutate(ntdi = (texas - nov) / (texas + nov)) %>%  # normalized tweet diff
+  #mutate(ntdi = replace_na(ntdi,0))   # replace NULLs with 0's
 
 rm(nov_by_county)
 

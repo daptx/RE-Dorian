@@ -138,11 +138,27 @@ counties = readRDS(here("data","derived","public","counties.RDS"))
 # note: cut_interval is an equal interval classification function, while 
 # cut_number is a quantile / equal count function
 # you can change the colors, titles, and transparency of points
+
+install.packages(sf)
+library(sf)
+countyPts = st_join(texas_sf, counties, joins=st_intersects)
+
+countyPts <- lat_lng(texas_sf,coords=c("coords_coords"))
+
+#select any tweets with lat and lng columns (from GPS) or designated place types of your choosing
+countyPts <- subset(countyPts, place_type == 'city'| place_type == 'neighborhood'| place_type == 'poi' | !is.na(lat))
+
+#convert bounding boxes into centroids for lat and lng columns
+countyPts <- lat_lng(countyPts,coords=c("bbox_coords"))
+
+countiesPts = countyPts %>%
+  inner_join(counties, by="GEOID") # join count of tweets to counties
+
 ggplot() +
   geom_sf(data=counties, aes(fill=cut_number(DENSITY,5)), color="grey")+
   scale_fill_brewer(palette="GnBu")+
   guides(fill=guide_legend(title="Population Density"))+
-  geom_point(data = texas, aes(x=lng,y=lat),
+  geom_point(data = countiesPts, aes(x=lng,y=lat),
              colour = 'purple', alpha = .2) +
   labs(title = "Vaccination Tweets in the South During The COVID-19 Pandemic")+
   theme(plot.title=element_text(hjust=0.5),
