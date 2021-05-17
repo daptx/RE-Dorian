@@ -159,7 +159,7 @@ ggplot() +
   scale_fill_brewer(palette="GnBu")+
   guides(fill=guide_legend(title="Population Density"))+
   geom_point(data = countiesPts, aes(x=lng,y=lat),
-             colour = 'purple', alpha = .2) +
+             colour = 'plum3', alpha = .2) +
   labs(title = "Vaccination Tweets in the South During The COVID-19 Pandemic")+
   theme(plot.title=element_text(hjust=0.5),
         axis.title.x=element_blank(),
